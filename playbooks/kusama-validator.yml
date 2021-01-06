@@ -9,6 +9,10 @@
 - name: Kusama validator peers
   hosts: peers
   become: yes
+  vars:
+    chain: "kusama"
+    chain_network_id: "ksmcc3"
+    exec_binary: "/usr/local/bin/polkadot"
   tasks:
     - include_role:
         name: ../roles/peer
