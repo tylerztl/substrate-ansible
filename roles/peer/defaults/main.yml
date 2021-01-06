@@ -1,0 +1,22 @@
+---
+# defaults file for blockchain peer
+peer_name: "node"
+p2p_port: 30333
+rpc_port: 9933
+ws_port: 9944
+base_path: "database"
+
+# common variables
+chain: "kusama"
+chain_network_id: "ksmcc3"
+exec_binary: "/usr/local/bin/polkadot"
+logging_filter: 'sync=warn,afg=warn,babe=warn,runtime=debug'
+unsafe_external_enabled: false
+
+# Blockchain peer service restart crontab settings. Enabled to restart every hour.
+peer_restart_enabled: 'true'
+peer_restart_minute: '0'
+peer_restart_hour: '*'
+peer_restart_day: '*'
+peer_restart_month: '*'
+peer_restart_weekday: '*'

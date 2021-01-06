@@ -1,0 +1,41 @@
+# Specify the nodes to setup. You can add more or remove entries, as you wish.
+
+[peer0]
+8.136.150.244
+
+[peer0:vars]
+ansible_user=root
+
+# ## Optional command arguments for peer0
+peer_name=alice
+p2p_port=30333
+rpc_port=9933
+ws_port=9944
+validator_mode_enable=true
+base_path=/mnt/disk1/workspace
+#bootnodes=['/ip4/172.25.251.231/tcp/30333/p2p/12D3KooWJGby5TBhQdmv6dbbfHzDXP366nt1noxuK8r8Fhu9abs9','/ip4/172.25.251.231/tcp/30334/p2p/12D3KooWSP5h5fS5doEXvn7wcWMDA3XpsYaHgD6WqKeooUQKN9nc','/ip4/172.25.251.231/tcp/30335/p2p/12D3KooWHoiCQerSzMcsMXtnQi3BFXGQF5qNCkryUZVHJap7a6y4']
+
+# Group all nodes
+[peers:children]
+peer0
+
+
+# ## Common variables, if not set, use the default value
+[all:vars]
+#chain="kusama"
+#chain_network_id="ksmcc3"
+#exec_binary="/usr/local/bin/polkadot"
+#logging_filter='sync=warn,afg=warn,babe=warn,runtime=debug'
+#in_peers=25
+#out_peers=25
+#unsafe_external_enabled=true
+#ws_max_connections=20000
+#telemetry_url=wss://telemetry.patract.io
+
+# ## Blockchain peer service restart crontab settings. Enabled to restart every hour.
+#peer_restart_enabled='true'
+#peer_restart_minute='0'
+#peer_restart_hour='*'
+#peer_restart_day='*'
+#peer_restart_month='*'
+#peer_restart_weekday='*'

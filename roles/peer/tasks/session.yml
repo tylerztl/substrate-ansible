@@ -1,0 +1,35 @@
+---
+- name: check if keys already exist
+  shell: |
+    set -o pipefail
+    if [ -d {{ hostvars[inventory_hostname].base_path | default(base_path) }}/{{ chain }}/{{ hostvars[inventory_hostname].peer_name | default(peer_name) }}/chains/{{ chain_network_id }}/keystore ]; then
+      ls {{ hostvars[inventory_hostname].base_path | default(base_path) }}/{{ chain }}/{{ hostvars[inventory_hostname].peer_name | default(peer_name) }}/chains/{{ chain_network_id }}/keystore -1U | wc -l
+    else
+      mkdir -p {{ hostvars[inventory_hostname].base_path | default(base_path) }}/{{ chain }}/{{ hostvars[inventory_hostname].peer_name | default(peer_name) }}/chains/{{ chain_network_id }}/
+      echo 0
+    fi
+  args:
+    executable: /bin/bash
+  register: keystore_files
+  changed_when: False
+
+- name: initialize server keys
+  uri:
+    url: http://localhost:{{ rpc_port }}
+    method: "POST"
+    body_format: json
+    body: |
+      { "jsonrpc":"2.0", "method":"author_rotateKeys", "params":[], "id":1 }
+  when: keystore_files.stdout == "0"
+  register: rotate_keys
+
+- name: show rotateKeys output
+  debug:
+    var: rotate_keys
+  when: keystore_files.stdout == "0"
+
+- name: save rotateKeys output
+  copy:
+    content: "{{ rotate_keys.json }}"
+    dest: "{{ hostvars[inventory_hostname].base_path | default(base_path) }}/{{ chain }}/{{ hostvars[inventory_hostname].peer_name | default(peer_name) }}/chains/{{ chain_network_id }}/rotate_keys.json"
+  when: keystore_files.stdout == "0"

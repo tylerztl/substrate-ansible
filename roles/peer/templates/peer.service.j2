@@ -1,0 +1,50 @@
+#jinja2:lstrip_blocks: True
+[Unit]
+Description={{ chain }}-{{ hostvars[inventory_hostname].peer_name | default(peer_name) }}
+
+[Service]
+ExecStart={{ exec_binary }} \
+  --name={{ project|default('patract') }}-{{ hostvars[inventory_hostname].peer_name | default(peer_name) }} \
+  --port={{ hostvars[inventory_hostname].p2p_port | default(p2p_port) }} \
+  --rpc-port={{ hostvars[inventory_hostname].rpc_port | default(rpc_port) }} \
+  --ws-port={{ hostvars[inventory_hostname].ws_port | default(ws_port) }} \
+  --chain={{ chain }} \
+  --pruning=archive \
+  --execution=NativeElseWasm \
+  --wasm-execution=Compiled \
+  -l{{ logging_filter }} \
+  --base-path {{ hostvars[inventory_hostname].base_path | default(base_path) }}/{{ chain }}/{{ hostvars[inventory_hostname].peer_name | default(peer_name) }} \
+  {% if unsafe_external_enabled %}
+  --unsafe-ws-external \
+  --unsafe-rpc-external \
+  --rpc-cors=all \
+  {% endif %}
+  {% if hostvars[inventory_hostname].validator_mode_enable is defined and hostvars[inventory_hostname].validator_mode_enable %}
+  --validator \
+  {% endif %}
+  {% if ws_max_connections is defined and ws_max_connections %}
+  --ws-max-connections={{ ws_max_connections }} \
+  {% endif %}
+  {% if in_peers is defined and in_peers %}
+  --in-peers={{ in_peers }} \
+  {% endif %}
+  {% if out_peers is defined and out_peers %}
+  --out-peers={{ out_peers }} \
+  {% endif %}
+  {% if hostvars[inventory_hostname].bootnodes is defined and hostvars[inventory_hostname].bootnodes|length %}
+  --bootnodes \
+  {% for bootnode in hostvars[inventory_hostname].bootnodes %}
+    {{ bootnode }} \
+  {% endfor %}
+  {% endif %}
+  {% if telemetry_url is defined and telemetry_url|length %}
+  --telemetry-url="{{ telemetry_url }}/submit 0"
+  {% else %}
+  --no-telemetry
+  {% endif %}
+
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target

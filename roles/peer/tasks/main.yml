@@ -1,0 +1,8 @@
+---
+- name: service setup
+  import_tasks: service.yml
+
+- name: session management
+  import_tasks: session.yml
+  when: "hostvars[inventory_hostname].validator_mode_enable is defined and hostvars[inventory_hostname].validator_mode_enable|bool"
+
