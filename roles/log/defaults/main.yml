@@ -1,0 +1,3 @@
+---
+# defaults file for log
+sys_service_name: "polkadot-node"

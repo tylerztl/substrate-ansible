@@ -1,0 +1,19 @@
+---
+- name: Wait for system ready
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Wait for nodes to become reachable
+      wait_for_connection:
+
+- name: Jupiter peers
+  hosts: peers
+  become: yes
+  vars:
+    chain: "testnet"
+    chain_network_id: "jupiter"
+    exec_binary: "/usr/local/bin/jupiter"
+  tasks:
+    - include_role:
+        name: ../roles/peer
+

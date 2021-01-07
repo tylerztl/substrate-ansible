@@ -1,0 +1,11 @@
+---
+- name: cronjob for restarting {{ chain }} service
+  cron:
+    name: "restart {{ chain }}-{{ hostvars[inventory_hostname].peer_name | default(peer_name) }}"
+    minute: "{{ peer_restart_minute }}"
+    hour: "{{ peer_restart_hour }}"
+    day: "{{ peer_restart_day }}"
+    month: "{{ peer_restart_month }}"
+    weekday: "{{ peer_restart_weekday }}"
+    job: "/bin/systemctl restart {{ chain }}-{{ hostvars[inventory_hostname].peer_name | default(peer_name) }}.service"
+  when: "peer_restart_enabled|default(false)|bool"

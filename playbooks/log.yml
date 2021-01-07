@@ -1,0 +1,8 @@
+- name: Print  service log
+  gather_facts: no
+  hosts: peers
+#  remote_user: root
+  become: yes
+  tasks:
+    - include_role:
+        name: ../roles/log

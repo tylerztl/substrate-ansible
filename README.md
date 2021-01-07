@@ -5,12 +5,18 @@
 
 ## Examples
 ### 1. 启动 kusama 节点
+启动其他节点类似
 ```
 // ssh pub key
-ansible-playbook -i inventory.yml playbooks/kusama-validator.yml -b
+ansible-playbook -i inventory.yml playbooks/kusama.yml -b
 
 // ssh password
-ansible-playbook -i inventory.yml playbooks/kusama-validator.yml -b --extra-vars "ansible_become_pass='$SUDO_PW'"
+ansible-playbook -i inventory.yml playbooks/kusama.yml -b -e "ansible_become_pass='$SUDO_PW'"
+```
+## 2. 查看节点日志
+修改 inventory.yml 中 `sys_service_name`变量，其是启动的节点的systemd服务名称，命名规则：{chain}-{peer_name}， 可以在远程主机的`/etc/systemd/system`目录下查看
+```
+ansible-playbook -i inventory.yml playbooks/log.yml -b
 ```
 
 ## Ansible Guide

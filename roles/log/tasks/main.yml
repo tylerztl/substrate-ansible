@@ -1,0 +1,19 @@
+- name: get command output
+  shell: |
+    set -o pipefail
+    journalctl -u {{ sys_service_name }} --no-pager > /root/{{ sys_service_name }}.log
+    tail -n 10000 /root/{{ sys_service_name }}.log
+  become: yes
+  args:
+    executable: /bin/bash
+  changed_when: False
+  register: command_output
+
+- name: show {{ sys_service_name }} service log
+  debug:
+    msg: "{{ command_output.stdout_lines }}"
+
+- name: remove {{ sys_service_name }} service log
+  file:
+    path: /root/{{ sys_service_name }}.log
+    state: absent

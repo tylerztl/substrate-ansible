@@ -14,7 +14,7 @@ logging_filter: 'sync=warn,afg=warn,babe=warn,runtime=debug'
 unsafe_external_enabled: false
 
 # Blockchain peer service restart crontab settings. Enabled to restart every hour.
-peer_restart_enabled: 'true'
+peer_restart_enabled: 'false'
 peer_restart_minute: '0'
 peer_restart_hour: '*'
 peer_restart_day: '*'
