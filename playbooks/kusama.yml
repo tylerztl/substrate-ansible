@@ -6,13 +6,13 @@
     - name: Wait for nodes to become reachable
       wait_for_connection:
 
-- name: Kusama validator peers
+- name: Kusama peers
   hosts: peers
   become: yes
   vars:
     chain: "kusama"
     chain_network_id: "ksmcc3"
-    exec_binary: "/usr/local/bin/polkadot"
+    exec_binary: "/mnt/disk1/workspace/node/mainnet/kusama/kusama"
   tasks:
     - include_role:
         name: ../roles/peer

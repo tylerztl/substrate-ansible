@@ -6,13 +6,13 @@
     - name: Wait for nodes to become reachable
       wait_for_connection:
 
-- name: Jupiter peers
+- name: Rococo peers
   hosts: peers
   become: yes
   vars:
-    chain: "jupiter-poa"
-    chain_network_id: "jupiter"
-    exec_binary: "/mnt/disk1/workspace/node/testnet/jupiter/patract-prep"
+    chain: "rococo"
+    chain_network_id: "rococo"
+    exec_binary: "/mnt/disk1/workspace/node/testnet/rococo/rococo"
   tasks:
     - include_role:
         name: ../roles/peer

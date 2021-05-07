@@ -4,7 +4,7 @@ Description={{ chain }}-{{ hostvars[inventory_hostname].peer_name | default(peer
 
 [Service]
 ExecStart={{ exec_binary }} \
-  --name={{ project|default('patract') }}-{{ hostvars[inventory_hostname].peer_name | default(peer_name) }} \
+  --name={{ hostvars[inventory_hostname].peer_name | default(peer_name) }} \
   --port={{ hostvars[inventory_hostname].p2p_port | default(p2p_port) }} \
   --rpc-port={{ hostvars[inventory_hostname].rpc_port | default(rpc_port) }} \
   --ws-port={{ hostvars[inventory_hostname].ws_port | default(ws_port) }} \
@@ -13,12 +13,15 @@ ExecStart={{ exec_binary }} \
   --execution=NativeElseWasm \
   --wasm-execution=Compiled \
   -l{{ logging_filter }} \
-  --base-path {{ hostvars[inventory_hostname].base_path | default(base_path) }}/{{ chain }}/{{ hostvars[inventory_hostname].peer_name | default(peer_name) }} \
+  --base-path {{ hostvars[inventory_hostname].base_path | default(base_path) }}/database \
   {% if unsafe_external_enabled %}
   --unsafe-ws-external \
   --unsafe-rpc-external \
-  --rpc-cors=all \
+  {% else %}
+  --ws-external \
+  --rpc-external \
   {% endif %}
+  --rpc-cors=all \
   {% if hostvars[inventory_hostname].validator_mode_enable is defined and hostvars[inventory_hostname].validator_mode_enable %}
   --validator \
   {% endif %}
@@ -36,6 +39,9 @@ ExecStart={{ exec_binary }} \
   {% for bootnode in hostvars[inventory_hostname].bootnodes %}
     {{ bootnode }} \
   {% endfor %}
+  {% endif %}
+  {% if prometheus_port is defined %}
+  --prometheus-port={{ prometheus_port }}
   {% endif %}
   {% if telemetry_url is defined and telemetry_url|length %}
   --telemetry-url="{{ telemetry_url }}/submit 0"
