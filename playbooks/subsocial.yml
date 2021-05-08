@@ -1,0 +1,19 @@
+---
+- name: Wait for system ready
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Wait for nodes to become reachable
+      wait_for_connection:
+
+- name: Subsocial peers
+  hosts: peers
+  become: yes
+  vars:
+    chain: "/mnt/disk1/workspace/node/mainnet/subsocial/subsocial.json"
+    chain_network_id: "subsocial"
+    exec_binary: "/mnt/disk1/workspace/node/mainnet/subsocial/subsocial-node"
+  tasks:
+    - include_role:
+        name: ../roles/peer
+

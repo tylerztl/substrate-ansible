@@ -13,8 +13,9 @@ peer_name=patract-elara-node1
 p2p_port=30333
 rpc_port=9933
 ws_port=9944
+prometheus_port=9615
 #validator_mode_enable=false
-base_path=/mnt/disk1/workspace/node/testnet/westend
+base_path=/mnt/disk1/workspace/node/mainnet/polkadot
 #bootnodes=['/ip4/172.25.251.231/tcp/30333/p2p/12D3KooWJGby5TBhQdmv6dbbfHzDXP366nt1noxuK8r8Fhu9abs9','/ip4/172.25.251.231/tcp/30334/p2p/12D3KooWSP5h5fS5doEXvn7wcWMDA3XpsYaHgD6WqKeooUQKN9nc','/ip4/172.25.251.231/tcp/30335/p2p/12D3KooWHoiCQerSzMcsMXtnQi3BFXGQF5qNCkryUZVHJap7a6y4']
 
 # Group all nodes
@@ -30,7 +31,6 @@ logging_filter='info,runtime=debug'
 #unsafe_external_enabled=true
 ws_max_connections=40000
 telemetry_url=wss://telemetry.patract.io
-prometheus_port=9615
 #project=patractlabs
 
 # ## Recommended to set vars in the playbook file

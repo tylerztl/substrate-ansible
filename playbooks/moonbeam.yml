@@ -1,0 +1,19 @@
+---
+- name: Wait for system ready
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Wait for nodes to become reachable
+      wait_for_connection:
+
+- name: Moonbeam peers
+  hosts: peers
+  become: yes
+  vars:
+    chain: "alphanet"
+    chain_network_id: "moonbase_alpha"
+    exec_binary: "/mnt/disk1/workspace/node/testnet/moonbeam/moonbeam"
+  tasks:
+    - include_role:
+        name: ../roles/peer
+
