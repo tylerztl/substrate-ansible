@@ -1,0 +1,17 @@
+- name: Wait for system ready
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Wait for nodes to become reachable
+      wait_for_connection:
+
+- name: Dock peers
+  hosts: peers
+  become: yes
+  vars:
+    chain: "/mnt/disk1/node/mainnet/dock/vulcan_raw.json"
+    chain_network_id: "dock"
+    exec_binary: "/mnt/disk1/node/mainnet/dock/dock"
+  tasks:
+    - include_role:
+        name: ../roles/peer

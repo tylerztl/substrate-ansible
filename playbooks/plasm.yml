@@ -1,0 +1,16 @@
+- name: Wait for system ready
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Wait for nodes to become reachable
+      wait_for_connection:
+
+- name: chainx peers
+  hosts: peers
+  become: yes
+  vars:
+    chain_network_id: "plasm"
+    exec_binary: "/mnt/disk1/node/mainnet/plasm/plasm"
+  tasks:
+    - include_role:
+        name: ../roles/peer
