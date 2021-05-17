@@ -10,6 +10,7 @@ ExecStart={{ exec_binary }} \
   --ws-port={{ hostvars[inventory_hostname].ws_port | default(ws_port) }} \
   {% if prometheus_port is defined %}
   --prometheus-port={{ prometheus_port }} \
+  --prometheus-external \
   {% endif %}
   --chain={{ chain }} \
   --pruning=archive \
